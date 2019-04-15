@@ -168,7 +168,7 @@ if __name__ == "__main__":
     else:
         accuracies = []
         generator = common.train_generator(
-            3, 'build/folds', input_shape, max_iterations=1)
+            14, 'build/folds', input_shape, max_iterations=1)
 
         first = True
         for (train_labels,
