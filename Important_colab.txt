@@ -1,0 +1,47 @@
+from zipfile import *
+file_name = "test.zip"
+
+with ZipFile(file_name, 'r') as zip:
+  zip.extractall("spoken_language_identification/spoken_language_dataset/build")
+  print("Done")
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+--------------------------------------------------------------------------------------------------------
+
+from shutil import copy
+sPath = os.path.abspath(os.curdir)
+os.chdir("..")
+dPath = os.path.abspath("drive/My Drive")
+copy(sPath+"/model.h5", dPath)
+
+---------------------------------------------------------------------------------------------------------
+
+from zipfile import *
+import os
+file_name = "train.zip"
+
+with ZipFile(file_name, 'r') as zip:
+  os.chdir("..")
+  os.chdir("..")
+  path = os.path.abspath(os.curdir)
+  zip.extractall(path+"/spoken_language_identification/spoken_language_dataset/build")
+  print("Done")
+
+-----------------------To count the no. of files in a directory-------------------------------------------------------------------------------------
+
+import os
+
+path, dirs, files = next(os.walk("spoken_language_identification/spoken_language_dataset/build/train"))
+file_count = len(files)
+print (file_count)
+
+--------------------------------------------------------------------------------------------------------------
+
+https://github.com/tomasz-oponowicz/spoken_language_identification.git
