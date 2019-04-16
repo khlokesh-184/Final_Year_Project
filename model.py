@@ -173,6 +173,8 @@ if __name__ == "__main__":
 
         common.test(test_labels, test_features, test_metadata, model, clazzes)
         
+        
+#         for resuming training
     elif args.resume:
         accuracies = []
         generator = common.train_generator(
