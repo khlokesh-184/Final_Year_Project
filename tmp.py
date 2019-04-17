@@ -210,7 +210,7 @@ if __name__ == "__main__":
             model.fit(
                 train_features,
                 train_labels,
-                epochs=3,
+                epochs=5,
                 callbacks=[checkpoint, earlystop],
                 verbose=1,
                 validation_data=(test_features, test_labels),
