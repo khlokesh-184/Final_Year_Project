@@ -150,13 +150,6 @@ if __name__ == "__main__":
         action='store_true',
         help='test the previously trained model against the test set')
     parser.set_defaults(test=False)
-    
-    parser.add_argument(
-        '--resume',
-        dest='resume',
-        action='store_true',
-        help='resume training of the previously trained model against the dataset')
-    parser.set_defaults(resume=False)
 
     args = parser.parse_args()
 
@@ -172,80 +165,10 @@ if __name__ == "__main__":
             label_binarizer, 'build/folds', 'test', [1], input_shape)
 
         common.test(test_labels, test_features, test_metadata, model, clazzes)
-        
-        
-#         for resuming training
-    elif args.resume:
-        accuracies = []
-        generator = common.train_generator(
-            3, 'build/folds', input_shape, max_iterations=1)
-
-        
-        for (train_labels,
-             train_features,
-             test_labels,
-             test_features,
-             test_metadata,
-             clazzes) in generator:
-
-            # TODO reset tensorflow
-
-            model = load_model('model.h5')
-#             if first:
-#                 model.summary()
-#                 first = False
-
-            checkpoint = ModelCheckpoint(
-                'model.h5',
-                monitor='val_loss',
-                verbose=0,
-                save_best_only=True,
-                mode='min')
-
-            earlystop = EarlyStopping(
-                monitor='val_loss',
-                min_delta=0,
-                patience=3,
-                verbose=0,
-                mode='auto')
-
-            model.fit(
-                train_features,
-                train_labels,
-                epochs=5,
-                callbacks=[checkpoint, earlystop],
-                verbose=1,
-                validation_data=(test_features, test_labels),
-                batch_size=8)
-
-            model = load_model('model.h5')
-
-            scores = model.evaluate(test_features, test_labels, verbose=0)
-            accuracy = scores[1]
-
-            print('Accuracy:', accuracy)
-            accuracies.append(accuracy)
-
-            common.test(
-                test_labels,
-                test_features,
-                test_metadata,
-                model,
-                clazzes)
-
-        accuracies = np.array(accuracies)
-
-        print('\n## Summary\n')
-        print("Mean: {mean}, Std {std}".format(
-            mean=accuracies.mean(),
-            std=accuracies.std()))
-
-
-        
     else:
         accuracies = []
         generator = common.train_generator(
-            3, 'build/folds', input_shape, max_iterations=1)
+            14, 'build/folds', input_shape, max_iterations=1)
 
         first = True
         for (train_labels,
@@ -279,7 +202,7 @@ if __name__ == "__main__":
             model.fit(
                 train_features,
                 train_labels,
-                epochs=4,
+                epochs=20,
                 callbacks=[checkpoint, earlystop],
                 verbose=1,
                 validation_data=(test_features, test_labels),
