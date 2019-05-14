@@ -168,7 +168,7 @@ if __name__ == "__main__":
     else:
         accuracies = []
         generator = common.train_generator(
-            11, 'build/folds', input_shape, max_iterations=1)
+            7, 'build/folds', input_shape, max_iterations=1)
 
         first = True
         for (train_labels,
@@ -183,6 +183,7 @@ if __name__ == "__main__":
             model = build_model(input_shape)
             if first:
                 model.summary()
+#                 plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
                 first = False
 
             checkpoint = ModelCheckpoint(
