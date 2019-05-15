@@ -2,6 +2,7 @@ from constants import *
 
 import time
 import re
+import matplotlib.pyplot as plt
 
 # supress all warnings (especially matplotlib warnings)
 import warnings
@@ -168,7 +169,7 @@ if __name__ == "__main__":
     else:
         accuracies = []
         generator = common.train_generator(
-            14, 'build/folds', input_shape, max_iterations=1)
+            7, 'build/folds', input_shape, max_iterations=1)
 
         first = True
         for (train_labels,
@@ -200,7 +201,7 @@ if __name__ == "__main__":
                 verbose=0,
                 mode='auto')
 
-            model.fit(
+            history = model.fit(
                 train_features,
                 train_labels,
                 epochs=20,
@@ -213,6 +214,23 @@ if __name__ == "__main__":
 
             scores = model.evaluate(test_features, test_labels, verbose=0)
             accuracy = scores[1]
+            
+            # summarize history for accuracy
+            plt.plot(history.history['acc'])
+            plt.plot(history.history['val_acc'])
+            plt.title('model accuracy')
+            plt.ylabel('accuracy')
+            plt.xlabel('epoch')
+            plt.legend(['train', 'test'], loc='upper left')
+            plt.show()
+            # summarize history for loss
+            plt.plot(history.history['loss'])
+            plt.plot(history.history['val_loss'])
+            plt.title('model loss')
+            plt.ylabel('loss')
+            plt.xlabel('epoch')
+            plt.legend(['train', 'test'], loc='upper left')
+            plt.show()
 
             print('Accuracy:', accuracy)
             accuracies.append(accuracy)
